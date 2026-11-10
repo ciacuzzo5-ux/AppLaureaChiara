@@ -114,7 +114,7 @@ const upload = multer({
 function getEvent() {
   const defaultEvent = {
     title: "Festa di Laurea di Chiara",
-    subtitle: "Scienze delle Comunicazioni",
+    subtitle: "Scienze della Comunicazione",
     date: new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' }),
     localIp: getLocalIpAddress(),
     mobileUrl: currentPublicUrl || `http://${getLocalIpAddress()}:${PORT}`

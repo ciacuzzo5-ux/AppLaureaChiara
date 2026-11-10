@@ -292,7 +292,7 @@ const App = {
     }
 
     const heroSubtitle = document.getElementById('home-event-subtitle');
-    if (heroSubtitle) heroSubtitle.innerText = event.subtitle || 'Dottoressa in Scienze delle Comunicazioni 🎓';
+    if (heroSubtitle) heroSubtitle.innerText = event.subtitle || 'Dottoressa in Scienze della Comunicazione 🎓';
 
     const onboardingTitle = document.getElementById('onboarding-event-title');
     if (onboardingTitle) {
@@ -300,7 +300,7 @@ const App = {
     }
 
     const onboardingName = document.getElementById('onboarding-party-name');
-    if (onboardingName) onboardingName.innerText = 'Scienze delle Comunicazioni 🎓';
+    if (onboardingName) onboardingName.innerText = 'Scienze della Comunicazione 🎓';
 
     if (window.QrCards) QrCards.updateEventInfo(event);
   },
