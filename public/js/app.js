@@ -11,8 +11,10 @@ const App = {
     Dedications.init();
     Camera.init();
     Lightbox.init();
+    QrCards.init();
 
-    // 2. Setup onboarding and listeners
+    // 2. Setup modals, onboarding and listeners
+    this.setupModals();
     this.setupOnboarding();
     this.setupNavigation();
     this.setupPhotoUploadForm();
@@ -25,6 +27,32 @@ const App = {
 
     // 5. Update Guest badge
     this.updateGuestBadge();
+  },
+
+  setupModals() {
+    // QR Modal open/close for Chiara
+    const qrBtn = document.getElementById('header-qr-btn');
+    const qrModal = document.getElementById('qr-print-modal');
+    const closeQrBtn = document.getElementById('close-qr-modal-btn');
+
+    if (qrBtn) {
+      qrBtn.addEventListener('click', () => {
+        if (this.eventData) QrCards.updateEventInfo(this.eventData);
+        if (qrModal) qrModal.classList.remove('hidden');
+      });
+    }
+
+    if (closeQrBtn) {
+      closeQrBtn.addEventListener('click', () => {
+        if (qrModal) qrModal.classList.add('hidden');
+      });
+    }
+
+    if (qrModal) {
+      qrModal.addEventListener('click', (e) => {
+        if (e.target === qrModal) qrModal.classList.add('hidden');
+      });
+    }
   },
 
 
@@ -273,6 +301,8 @@ const App = {
 
     const onboardingName = document.getElementById('onboarding-party-name');
     if (onboardingName) onboardingName.innerText = 'Scienze delle Comunicazioni 🎓';
+
+    if (window.QrCards) QrCards.updateEventInfo(event);
   },
 
   setupLiveSync() {
