@@ -1,0 +1,502 @@
+/**
+ * QR Cards Module: Generates printable QR table cards with the live URL for smartphones
+ * Styled in the website's elegant ivory-cream / bordeaux / gold theme.
+ */
+
+const QrCards = {
+  qrTarget: null,
+  mobileUrl: '',
+
+  init() {
+    this.qrTarget = document.getElementById('qrcode-target');
+    this.urlBadge = document.getElementById('qr-direct-url-text');
+
+    const printBtn = document.getElementById('print-qr-btn');
+    const downloadImgBtn = document.getElementById('download-card-img-btn');
+    const copyLinkBtn = document.getElementById('copy-qr-link-btn');
+
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        this.printCard();
+      });
+    }
+
+    if (downloadImgBtn) {
+      downloadImgBtn.addEventListener('click', () => {
+        this.downloadCardImage();
+      });
+    }
+
+    if (copyLinkBtn) {
+      copyLinkBtn.addEventListener('click', () => {
+        const urlToCopy = this.mobileUrl || window.location.origin;
+        navigator.clipboard.writeText(urlToCopy);
+        App.showToast('📋 Link festa per smartphone copiato!');
+      });
+    }
+  },
+
+  updateEventInfo(event) {
+    if (!event) return;
+    let bestUrl = event.mobileUrl || '';
+    if (!bestUrl || bestUrl.includes('localhost') || bestUrl.includes('127.0.0.1') || bestUrl.includes('192.168.')) {
+      if (window.location.origin && !window.location.origin.includes('localhost') && !window.location.origin.includes('127.0.0.1') && !window.location.origin.includes('192.168.')) {
+        bestUrl = window.location.origin;
+      } else {
+        bestUrl = 'https://applaureachiara.onrender.com';
+      }
+    }
+    this.mobileUrl = bestUrl;
+    if (event.date) {
+      this.eventDate = event.date;
+      const cardDateEl = document.querySelector('.card-party-subtitle');
+      if (cardDateEl) cardDateEl.innerText = event.date;
+    }
+    const realUrlEl = document.getElementById('qr-modal-real-url');
+    if (realUrlEl) {
+      realUrlEl.innerHTML = `<span style="color:#1b7f3b; font-weight:600;">✓ Link definitivo Cloud permanente (NON scade mai):</span><br><code style="background:rgba(139,26,46,0.06); color:#8B1A2E; padding:3px 8px; border-radius:6px; font-weight:600; font-size:0.75rem; display:inline-block; margin-top:4px;">${this.mobileUrl}</code>`;
+    }
+    this.generateQRCode(this.mobileUrl);
+  },
+
+  generateQRCode(url) {
+    if (!this.qrTarget) return;
+    this.qrTarget.innerHTML = '';
+
+    let targetUrl = url || this.mobileUrl || 'https://applaureachiara.onrender.com';
+    if (targetUrl.includes('localhost') || targetUrl.includes('127.0.0.1') || targetUrl.includes('192.168.')) {
+      targetUrl = 'https://applaureachiara.onrender.com';
+    }
+
+    if (window.QRCode) {
+      try {
+        new QRCode(this.qrTarget, {
+          text: targetUrl,
+          width: 260,
+          height: 260,
+          colorDark: "#1C0B10",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel ? QRCode.CorrectLevel.H : 2
+        });
+      } catch (err) {
+        console.error('QR code generation error:', err);
+      }
+    }
+  },
+
+  printCard() {
+    const cardEl = document.getElementById('printable-table-card');
+    if (!cardEl) {
+      window.print();
+      return;
+    }
+
+    try {
+      const cardHtml = cardEl.outerHTML;
+      const printWindow = window.open('', '_blank');
+      if (printWindow) {
+        printWindow.document.write(`<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Stampa Segnaposto - Chiara Iacuzzo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600;1,700&family=Pinyon+Script&family=Outfit:wght@500;600;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #F8F0E8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Outfit', sans-serif;
+      padding: 20px;
+    }
+    .table-card-preview {
+      background: #ffffff;
+      color: #1C0B10;
+      border-radius: 20px;
+      padding: 16px;
+      margin: 0 auto;
+      max-width: 340px;
+      width: 100%;
+      box-shadow: 0 16px 40px rgba(80, 20, 35, 0.12);
+      border: 1px solid rgba(139, 26, 46, 0.10);
+    }
+    .card-inner-border {
+      border: 2px solid #8B1A2E;
+      border-radius: 14px;
+      padding: 20px 16px 18px 16px;
+      text-align: center;
+      position: relative;
+      background: radial-gradient(ellipse at 50% 0%, #fff9f2 0%, #ffffff 60%);
+      overflow: hidden;
+    }
+    .card-top-laurel {
+      font-size: 1.65rem;
+      letter-spacing: 5px;
+      color: #8B1A2E;
+      margin-bottom: 4px;
+    }
+    .card-script-title {
+      font-family: 'Pinyon Script', cursive, serif;
+      color: #8B1A2E;
+      font-weight: 400;
+      text-align: center;
+      margin: 4px 0 6px 0;
+      line-height: 1.25;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card-script-title .script-line-1 {
+      font-size: 2.15rem;
+      letter-spacing: 0.5px;
+    }
+    .card-script-title .script-line-2 {
+      font-size: 2.25rem;
+      letter-spacing: 0.5px;
+      margin-top: 6px;
+    }
+    .card-party-subtitle {
+      font-size: 0.72rem;
+      color: #9A7A82;
+      font-weight: 500;
+      margin-bottom: 14px;
+      letter-spacing: 0.8px;
+    }
+    .qr-canvas-wrapper {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin: 0 auto 14px auto;
+      background: #fff;
+      padding: 10px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(80, 20, 35, 0.08), 0 0 0 1.5px rgba(139,26,46,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-canvas-wrapper img, .qr-canvas-wrapper canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+    .qr-center-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #640D1F;
+      color: #C5A059;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      border: 2.5px solid #ffffff;
+    }
+    .card-instruction-text {
+      font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+      font-size: 1.08rem;
+      color: #5C2836;
+      margin-top: 10px;
+      font-weight: 600;
+      font-style: italic;
+      line-height: 1.45;
+      letter-spacing: 0.2px;
+    }
+    .card-instruction-text .instruction-line {
+      display: block;
+      white-space: nowrap;
+    }
+    @media print {
+      body { min-height: auto; padding: 0; background: #ffffff; }
+      @page { margin: 1cm; size: auto; }
+      .table-card-preview { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  ${cardHtml}
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        window.print();
+      }, 400);
+    };
+  </script>
+</body>
+</html>`);
+        printWindow.document.close();
+        return;
+      }
+    } catch (e) {
+      console.warn('Popup print blocked, falling back to window.print()', e);
+    }
+
+    // Direct fallback
+    window.print();
+  },
+
+  async downloadCardImage() {
+    const cardEl = document.getElementById('printable-table-card');
+    if (!cardEl) return;
+
+    App.showToast('⏳ Creazione immagine...');
+
+    // Attendi caricamento dei font web per una resa impeccabile
+    if (document.fonts) {
+      try {
+        await Promise.all([
+          document.fonts.load('104px "Pinyon Script"'),
+          document.fonts.load('110px "Pinyon Script"'),
+          document.fonts.load('600 30px "Outfit"'),
+          document.fonts.load('italic 600 70px "Cormorant Garamond"'),
+          document.fonts.load('italic 700 70px "Cormorant Garamond"'),
+          document.fonts.ready
+        ]);
+      } catch (e) {
+        console.warn('Font load note:', e);
+      }
+    }
+
+    let targetUrl = this.mobileUrl || window.location.origin || 'https://applaureachiara.onrender.com';
+    if (targetUrl.includes('localhost') || targetUrl.includes('127.0.0.1') || targetUrl.includes('192.168.')) {
+      targetUrl = 'https://applaureachiara.onrender.com';
+    }
+
+    // Dimensioni canvas HD vertical flyer (1200 x 1600 — proporzioni armoniose ed eleganti 3:4)
+    const W = 1200;
+    const H = 1600;
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    // Palette ufficiale del sito (Crema / Bordeaux / Oro)
+    const COLOR_BG_PAGE   = '#F8F0E8'; // Crema avorio dello sfondo
+    const COLOR_CARD_BG   = '#FFFFFF'; // Bianco puro della card
+    const COLOR_BORDEAUX  = '#8B1A2E'; // Bordeaux nobile (colore della scritta calligrafica)
+    const COLOR_BORD_DARK = '#640D1F'; // Bordeaux profondo
+    const COLOR_GOLD      = '#C5A059'; // Oro champagne
+    const COLOR_TEXT_MED  = '#5C3340'; // Bordeaux medio secondario
+    const COLOR_TEXT_MUTE = '#9A7A82'; // Grigio-rosato per la data
+
+    // Helper per disegnare rettangoli arrotondati
+    const drawRoundRect = (x, y, w, h, r) => {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    };
+
+    /* ── 1. SFONDO COMPLETO (Crema Avorio) ── */
+    ctx.fillStyle = COLOR_BG_PAGE;
+    ctx.fillRect(0, 0, W, H);
+
+    /* ── 2. CARD CENTRALE FLUTTUANTE (Bianco con ombra calda e morbida) ── */
+    const cardX = 64;
+    const cardY = 64;
+    const cardW = W - 128; // 1072
+    const cardH = H - 128; // 1472
+    const cardRadius = 36;
+
+    // Ombra calda bordeaux
+    ctx.shadowColor = 'rgba(80, 20, 35, 0.12)';
+    ctx.shadowBlur = 40;
+    ctx.shadowOffsetY = 16;
+    drawRoundRect(cardX, cardY, cardW, cardH, cardRadius);
+    ctx.fillStyle = COLOR_CARD_BG;
+    ctx.fill();
+
+    // Reset ombra
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetY = 0;
+
+    // Sottilissimo bordo esterno card
+    drawRoundRect(cardX, cardY, cardW, cardH, cardRadius);
+    ctx.strokeStyle = 'rgba(139, 26, 46, 0.10)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    /* ── 3. CORNICE INTERNA (.card-inner-border dello stile web) ── */
+    const inPad = 28;
+    const inX = cardX + inPad;
+    const inY = cardY + inPad;
+    const inW = cardW - (inPad * 2);
+    const inH = cardH - (inPad * 2);
+    const inRadius = 22;
+
+    // Sfondo radiale avorio sfumato interno
+    const inGrad = ctx.createRadialGradient(W / 2, inY + 50, 40, W / 2, inY + 300, inW * 0.75);
+    inGrad.addColorStop(0, '#FFF9F2');
+    inGrad.addColorStop(0.7, '#FFFFFF');
+    inGrad.addColorStop(1, '#FFFFFF');
+    drawRoundRect(inX, inY, inW, inH, inRadius);
+    ctx.fillStyle = inGrad;
+    ctx.fill();
+
+    // Bordo bordeaux nobile (pulito, semplice ed elegante)
+    drawRoundRect(inX, inY, inW, inH, inRadius);
+    ctx.strokeStyle = COLOR_BORDEAUX;
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    /* ── 4. DECORAZIONE SUPERIORE: • 🎓 • ── */
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+    ctx.font = '52px sans-serif';
+    ctx.fillStyle = COLOR_BORDEAUX;
+    ctx.fillText('• 🎓 •', W / 2, inY + 84);
+
+    /* ── 5. TITOLO CALLIGRAFICO (Pinyon Script bordeaux distanziato ed armonioso) ── */
+    ctx.fillStyle = COLOR_BORDEAUX;
+
+    // Prima riga: Chiara Iacuzzo's
+    ctx.font = '104px "Pinyon Script", cursive, serif';
+    ctx.fillText("Chiara Iacuzzo's", W / 2, inY + 200);
+
+    // Seconda riga: Graduation Party (spaziatura generosa per evitare collisioni con i tratti discendenti)
+    ctx.font = '110px "Pinyon Script", cursive, serif';
+    ctx.fillText("Graduation Party", W / 2, inY + 355);
+
+    /* ── 6. DATA: "26 Settembre 2026" ── */
+    ctx.font = '600 30px "Outfit", sans-serif';
+    ctx.fillStyle = COLOR_TEXT_MUTE;
+    if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
+    const displayDate = this.eventDate || '26 Settembre 2026';
+    ctx.fillText(displayDate, W / 2, inY + 452);
+    if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+
+    /* ── 7. RIQUADRO QR CODE (.qr-canvas-wrapper) ── */
+    const qrSize = 560;
+    const qrPad = 26;
+    const qrBoxW = qrSize + (qrPad * 2);
+    const qrBoxH = qrSize + (qrPad * 2);
+    const qrBoxX = (W - qrBoxW) / 2;
+    const qrBoxY = inY + 498;
+    const qrX = qrBoxX + qrPad;
+    const qrY = qrBoxY + qrPad;
+
+    // Ombra morbida per il riquadro QR
+    ctx.shadowColor = 'rgba(80, 20, 35, 0.08)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetY = 8;
+    drawRoundRect(qrBoxX, qrBoxY, qrBoxW, qrBoxH, 22);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+
+    // Reset ombra
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetY = 0;
+
+    // Bordo sottile dorato/bordeaux attorno al QR
+    drawRoundRect(qrBoxX, qrBoxY, qrBoxW, qrBoxH, 22);
+    ctx.strokeStyle = 'rgba(139, 26, 46, 0.20)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    /* ── FUNZIONE DI COMPLETAMENTO E DOWNLOAD ── */
+    const renderAndExport = (qrSource) => {
+      // Disegna il QR Code
+      if (qrSource) {
+        ctx.drawImage(qrSource, qrX, qrY, qrSize, qrSize);
+      }
+
+      // Badge circolare centrale sul QR (🎓)
+      const logoRadius = 48;
+      const logoCenterX = W / 2;
+      const logoCenterY = qrY + (qrSize / 2);
+
+      ctx.beginPath();
+      ctx.arc(logoCenterX, logoCenterY, logoRadius, 0, Math.PI * 2);
+      ctx.fillStyle = COLOR_BORD_DARK;
+      ctx.fill();
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.stroke();
+
+      // Emoji tocco di laurea al centro
+      ctx.font = '46px sans-serif';
+      ctx.fillStyle = COLOR_GOLD;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🎓', logoCenterX, logoCenterY + 2);
+
+      // ── Testo Istruzione sotto al QR ──
+      ctx.textBaseline = 'alphabetic';
+      ctx.font = 'italic 700 70px "Cormorant Garamond", "Playfair Display", Georgia, serif';
+      ctx.fillStyle = '#541926';
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '0.3px';
+      const textBaseY = qrBoxY + qrBoxH + 90;
+      const maxTextWidth = inW - 60;
+      ctx.fillText('Scansiona il qr code e condividi', W / 2, textBaseY, maxTextWidth);
+      ctx.fillText('con me foto, video e dediche ❤️', W / 2, textBaseY + 82, maxTextWidth);
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+
+      // Esporta l'immagine PNG
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          App.showToast('Errore durante la creazione dell\'immagine');
+          return;
+        }
+        const fileUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = fileUrl;
+        a.download = 'Segnaposto-Chiara-Iacuzzo.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(fileUrl), 2500);
+        App.showToast('✨ Immagine segnaposto salvata!');
+      }, 'image/png');
+    };
+
+    // Generazione del QR ad alta risoluzione in elemento temporaneo
+    try {
+      const tempDiv = document.createElement('div');
+      new QRCode(tempDiv, {
+        text: targetUrl,
+        width: qrSize,
+        height: qrSize,
+        colorDark: "#1C0B10",
+        colorLight: '#FFFFFF',
+        correctLevel: QRCode.CorrectLevel ? QRCode.CorrectLevel.H : 2
+      });
+
+      const hiCanvas = tempDiv.querySelector('canvas');
+      const hiImg = tempDiv.querySelector('img');
+
+      if (hiCanvas) {
+        renderAndExport(hiCanvas);
+      } else if (hiImg && hiImg.complete && hiImg.naturalWidth > 0) {
+        renderAndExport(hiImg);
+      } else if (hiImg) {
+        hiImg.onload = () => renderAndExport(hiImg);
+      } else {
+        renderAndExport(this.qrTarget ? this.qrTarget.querySelector('canvas') : null);
+      }
+    } catch (err) {
+      console.warn('Fallback al canvas a schermo:', err);
+      renderAndExport(this.qrTarget ? this.qrTarget.querySelector('canvas') : null);
+    }
+  }
+};
+
+window.QrCards = QrCards;
