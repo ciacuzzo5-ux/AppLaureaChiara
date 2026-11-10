@@ -60,11 +60,11 @@
   <!-- Badge Name -->
   <g transform="translate(400, 710)">
     <rect x="-240" y="-45" width="480" height="90" rx="45" fill="url(#bordeauxBadge1)" stroke="url(#gold1)" stroke-width="2.5"/>
-    <text x="0" y="12" font-family="'Segoe UI', -apple-system, Roboto, sans-serif" font-weight="800" font-size="32" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">IACUZZO CHIARA 🎓</text>
+    <text x="0" y="12" font-family="'Segoe UI', -apple-system, Roboto, sans-serif" font-weight="800" font-size="32" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">VOLPE CHIARA 🎓</text>
   </g>
 
   <g transform="translate(400, 800)">
     <text x="0" y="0" font-family="'Segoe UI', -apple-system, Roboto, sans-serif" font-weight="700" font-size="22" fill="#FFD54F" text-anchor="middle" letter-spacing="2">FESTA DI LAUREA</text>
-    <text x="0" y="34" font-family="'Segoe UI', -apple-system, Roboto, sans-serif" font-weight="400" font-size="18" fill="#C5D4ED" text-anchor="middle">Ingegneria Informatica 💻</text>
+    <text x="0" y="34" font-family="'Segoe UI', -apple-system, Roboto, sans-serif" font-weight="400" font-size="18" fill="#C5D4ED" text-anchor="middle">Scienze delle Comunicazioni 🎓</text>
   </g>
 </svg>

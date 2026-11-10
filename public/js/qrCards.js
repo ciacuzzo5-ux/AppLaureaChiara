@@ -99,7 +99,7 @@ const QrCards = {
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Stampa Segnaposto - Chiara Iacuzzo</title>
+  <title>Stampa Segnaposto - Chiara Volpe</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600;1,700&family=Pinyon+Script&family=Outfit:wght@500;600;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
   <style>
@@ -367,19 +367,19 @@ const QrCards = {
     /* ── 5. TITOLO CALLIGRAFICO (Pinyon Script bordeaux distanziato ed armonioso) ── */
     ctx.fillStyle = COLOR_BORDEAUX;
 
-    // Prima riga: Chiara Iacuzzo's
+    // Prima riga: Chiara Volpe's
     ctx.font = '104px "Pinyon Script", cursive, serif';
-    ctx.fillText("Chiara Iacuzzo's", W / 2, inY + 200);
+    ctx.fillText("Chiara Volpe's", W / 2, inY + 200);
 
     // Seconda riga: Graduation Party (spaziatura generosa per evitare collisioni con i tratti discendenti)
     ctx.font = '110px "Pinyon Script", cursive, serif';
     ctx.fillText("Graduation Party", W / 2, inY + 355);
 
-    /* ── 6. DATA: "26 Settembre 2026" ── */
+    /* ── 6. DATA: "17 Novembre 2026" ── */
     ctx.font = '600 30px "Outfit", sans-serif';
     ctx.fillStyle = COLOR_TEXT_MUTE;
     if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
-    const displayDate = this.eventDate || '26 Settembre 2026';
+    const displayDate = this.eventDate || '17 Novembre 2026';
     ctx.fillText(displayDate, W / 2, inY + 452);
     if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
 
@@ -459,7 +459,7 @@ const QrCards = {
         const fileUrl = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = fileUrl;
-        a.download = 'Segnaposto-Chiara-Iacuzzo.png';
+        a.download = 'Segnaposto-Chiara-Volpe.png';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

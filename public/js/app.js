@@ -260,19 +260,19 @@ const App = {
 
     const heroTitle = document.getElementById('home-event-title');
     if (heroTitle) {
-      heroTitle.innerHTML = "Chiara Iacuzzo’s<br>Graduation Party";
+      heroTitle.innerHTML = "Chiara Volpe’s<br>Graduation Party";
     }
 
     const heroSubtitle = document.getElementById('home-event-subtitle');
-    if (heroSubtitle) heroSubtitle.innerText = event.subtitle || 'Dottoressa in Ingegneria Informatica 💻';
+    if (heroSubtitle) heroSubtitle.innerText = event.subtitle || 'Dottoressa in Scienze delle Comunicazioni 🎓';
 
     const onboardingTitle = document.getElementById('onboarding-event-title');
     if (onboardingTitle) {
-      onboardingTitle.innerHTML = "Chiara Iacuzzo’s<br>Graduation Party";
+      onboardingTitle.innerHTML = "Chiara Volpe’s<br>Graduation Party";
     }
 
     const onboardingName = document.getElementById('onboarding-party-name');
-    if (onboardingName) onboardingName.innerText = 'Ingegneria Informatica 💻';
+    if (onboardingName) onboardingName.innerText = 'Scienze delle Comunicazioni 🎓';
   },
 
   setupLiveSync() {
