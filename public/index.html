@@ -107,11 +107,6 @@
           <div id="photos-grid" class="photos-grid grid-3-cols">
             <!-- Dynamically populated media tiles -->
           </div>
-
-          <!-- Subtle Developer Credit Footer -->
-          <footer class="app-credit-footer">
-            <p>Sito realizzato e progettato da Chiara Iacuzzo</p>
-          </footer>
         </div>
       </section>
 
@@ -138,11 +133,6 @@
           <div id="dedications-list" class="dedications-list">
             <!-- Dynamically populated dedication cards -->
           </div>
-
-          <!-- Subtle Developer Credit Footer -->
-          <footer class="app-credit-footer">
-            <p>Sito realizzato e progettato da Chiara Iacuzzo</p>
-          </footer>
         </div>
       </section>
 
@@ -175,6 +165,11 @@
         <span class="tab-badge" id="tab-dedications-badge" style="display: none;">0</span>
       </button>
     </nav>
+
+    <!-- FIXED SUBTLE DEVELOPER CREDIT BAR (In basso a tutto, visibile senza dover scorrere) -->
+    <div class="app-credit-bar">
+      <p>Sito realizzato e progettato da Chiara Iacuzzo</p>
+    </div>
 
     <!-- CAMERA ACTION SHEET MODAL (Photo vs Gallery) -->
     <div class="modal-overlay hidden" id="camera-sheet-modal">
@@ -415,7 +410,7 @@
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js?v=42')
+        navigator.serviceWorker.register('/sw.js?v=43')
           .then(reg => reg.update())
           .catch(err => console.log('SW error:', err));
       });
