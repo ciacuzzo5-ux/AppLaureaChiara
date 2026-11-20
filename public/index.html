@@ -47,8 +47,8 @@
         </div>
 
         <div class="header-actions">
-          <!-- QR Code Modal Button for Chiara -->
-          <button class="icon-btn" id="header-qr-btn" title="Visualizza e Stampa QR Code">
+          <!-- QR Code Modal Button for Chiara (hidden) -->
+          <button class="icon-btn" id="header-qr-btn" title="Visualizza e Stampa QR Code" style="display: none !important;">
             <i data-lucide="qr-code"></i>
           </button>
           <!-- Download ZIP Button -->
@@ -107,6 +107,11 @@
           <div id="photos-grid" class="photos-grid grid-3-cols">
             <!-- Dynamically populated media tiles -->
           </div>
+
+          <!-- Subtle Developer Credit Footer -->
+          <footer class="app-credit-footer">
+            <p>Sito realizzato con ❤️ da Chiara Iacuzzo</p>
+          </footer>
         </div>
       </section>
 
@@ -133,6 +138,11 @@
           <div id="dedications-list" class="dedications-list">
             <!-- Dynamically populated dedication cards -->
           </div>
+
+          <!-- Subtle Developer Credit Footer -->
+          <footer class="app-credit-footer">
+            <p>Sito realizzato con ❤️ da Chiara Iacuzzo</p>
+          </footer>
         </div>
       </section>
 
@@ -405,7 +415,7 @@
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js?v=40')
+        navigator.serviceWorker.register('/sw.js?v=41')
           .then(reg => reg.update())
           .catch(err => console.log('SW error:', err));
       });
