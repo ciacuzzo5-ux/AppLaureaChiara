@@ -351,7 +351,7 @@ input, textarea, select, button {
   overflow-y: auto;
   overflow-x: hidden;
   padding-top: var(--header-height);
-  padding-bottom: calc(var(--bottom-bar-height) + 26px + env(safe-area-inset-bottom, 16px));
+  padding-bottom: calc(var(--bottom-bar-height) + env(safe-area-inset-bottom, 16px));
   position: relative;
   -webkit-overflow-scrolling: touch;
 }
@@ -567,17 +567,17 @@ input, textarea, select, button {
 /* Empty State */
 .empty-state {
   text-align: center;
-  padding: 60px 20px;
+  padding: 38px 20px 28px 20px;
   background: #FFFFFF;
   border-radius: var(--radius-lg);
   border: 1.5px dashed rgba(139, 26, 46, 0.18);
-  margin: 20px 10px;
+  margin: 14px 10px 4px 10px;
   box-shadow: 0 4px 20px rgba(80, 20, 35, 0.06);
 }
 
 .empty-icon {
-  font-size: 3.2rem;
-  margin-bottom: 12px;
+  font-size: 2.8rem;
+  margin-bottom: 8px;
 }
 
 .empty-state h3 {
@@ -1691,31 +1691,22 @@ input, textarea, select, button {
   }
 }
 
-/* Subtle Fixed Credit Bar (in basso a tutto, leggibile subito senza scorrere) */
-.app-credit-bar {
-  position: absolute;
-  bottom: calc(var(--bottom-bar-height) + env(safe-area-inset-bottom, 0px));
-  left: 0;
-  right: 0;
-  z-index: 45;
+/* Subtle Developer Credit (sotto al riquadro a distanza di un \n) */
+.app-credit-inline {
   text-align: center;
-  padding: 4px 10px 5px 10px;
-  background: rgba(255, 248, 242, 0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(139, 26, 46, 0.08);
-  pointer-events: none;
+  margin: 6px 0 16px 0;
+  padding: 0;
+  line-height: 1.2;
 }
 
-.app-credit-bar p {
+.app-credit-inline p {
   margin: 0;
-  font-size: 0.70rem;
+  padding: 0;
+  font-size: 0.72rem;
   letter-spacing: 0.25px;
   color: var(--color-text-muted);
   font-weight: 500;
-  opacity: 0.8;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  opacity: 0.75;
+  display: inline-block;
 }
 
